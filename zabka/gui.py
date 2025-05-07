@@ -1,9 +1,8 @@
 import tkinter as tk
-from tkinter import ttk
-import pandas as pd
 from PIL import Image, ImageTk
-from tkinter import messagebox
-
+from add_product import show_add_product_window
+from delete_product import show_delete_product_window
+from product_list import show_products_window
 
 
 def start_gui():
@@ -109,13 +108,21 @@ def show_admin_panel(root, login):
     button_frame = tk.Frame(root, bg="#569b31")
     button_frame.pack(pady=20)
 
-    # Przycisk pokazujący produkty w nowym oknie
+    # Przycisk pokazujący produkty
     tk.Button(
         button_frame,
         text="Pokaż produkty",
         font=("Helvetica", 12, "bold"),
         bg="#4CAF50", fg="white", width=20,
         command=lambda: show_products_window()
+    ).pack(side=tk.LEFT, padx=10)
+
+    tk.Button(
+        button_frame,
+        text="Usuń produkt",
+        font=("Helvetica", 12, "bold"),
+        bg="#4CAF50", fg="white", width=20,
+        command=lambda: show_delete_product_window(root)
     ).pack(side=tk.LEFT, padx=10)
 
     # Przycisk dodawania produktu
@@ -136,6 +143,17 @@ def show_admin_panel(root, login):
         command=lambda: show_login_screen(root)
     ).place(x=10, y=460)
 
+    try:
+        image2 = Image.open("Assets/computer.png")
+        imageResized2 = image2.resize((320, 320))
+        comp = ImageTk.PhotoImage(imageResized2)
+
+        label = tk.Label(root, image=comp, bd=0, highlightthickness=0)
+        label.place(x=610, y=350, anchor="center")
+        label.image = comp
+    except Exception as e:
+        print(f"Błąd ładowania obrazu: {e}")
+
     # LOGO
     try:
         image = Image.open("Assets/logo.png")
@@ -148,116 +166,4 @@ def show_admin_panel(root, login):
     except Exception as e:
         print(f"Błąd ładowania obrazu: {e}")
 
-#Pokazuje liste produktów w oknie
-def show_products_window():
-    try:
-        data = pd.read_excel("db/products.xlsx", engine="openpyxl")
 
-        # Tworzenie nowego okna
-        products_window = tk.Toplevel()
-        products_window.title("Lista produktów")
-        products_window.geometry("800x600")
-        products_window.configure(bg="#569b31")
-
-        # Nagłówek
-        tk.Label(products_window, text="Lista produktów",
-                 fg="white", font=("Helvetica", 20, "bold"), bg="#569b31").pack(pady=10)
-
-        # Ramka z tabelą
-        frame = tk.Frame(products_window, bg="#fffa0b", bd=2, relief="groove", padx=5, pady=5)
-        frame.pack(pady=10, padx=10, fill=tk.BOTH, expand=True)
-
-        # Tworzenie Tabeli
-        tree = ttk.Treeview(frame)
-        tree.pack(fill=tk.BOTH, expand=True)
-
-        # Konfiguracja kolumn
-        tree["columns"] = list(data.columns)
-        tree["show"] = "headings"
-
-        for col in data.columns:
-            tree.heading(col, text=col)
-            tree.column(col, anchor="center", width=100)
-
-        # Dodawanie danych
-        for _, row in data.iterrows():
-            tree.insert("", "end", values=list(row))
-
-        # Pasek przewijania
-        scrollbar = ttk.Scrollbar(frame, orient="vertical", command=tree.yview)
-        scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
-        tree.configure(yscrollcommand=scrollbar.set)
-
-    except Exception as e:
-        messagebox.showerror("Błąd", f"Nie można wczytać produktów: {str(e)}")
-
-#Dodawanie produktu
-def show_add_product_window(root):
-    add_window = tk.Toplevel(root)
-    add_window.title("Dodaj nowy produkt")
-    add_window.geometry("400x300")
-    add_window.configure(bg="#569b31")
-
-    # Etykiety input
-    tk.Label(add_window, text="Nazwa produktu:", bg="#569b31", fg="white").pack(pady=5)
-    entry_name = tk.Entry(add_window)
-    entry_name.pack()
-
-    tk.Label(add_window, text="Cena:", bg="#569b31", fg="white").pack(pady=5)
-    entry_price = tk.Entry(add_window)
-    entry_price.pack()
-
-    tk.Label(add_window, text="Ilość:", bg="#569b31", fg="white").pack(pady=5)
-    entry_quantity = tk.Entry(add_window)
-    entry_quantity.pack()
-
-    tk.Label(add_window, text="Kategoria:", bg="#569b31", fg="white").pack(pady=5)
-    entry_category = tk.Entry(add_window)
-    entry_category.pack()
-
-    # Przycisk dodaj
-    tk.Button(
-        add_window,
-        text="Dodaj produkt",
-        command=lambda: add_product(entry_name.get(), entry_price.get(), entry_quantity.get(), entry_category.get(),
-                                    add_window),
-        bg="#4CAF50", fg="white"
-    ).pack(pady=20)
-
-#Dodawanie do pliku
-def add_product(name, price, quantity, category, window):
-    try:
-        if not name or not price or not quantity or not category:
-            messagebox.showerror("Błąd", "Wszystkie pola muszą być wypełnione")
-            return
-
-        try:
-            price = float(price)
-            quantity = int(quantity)
-        except ValueError:
-            messagebox.showerror("Błąd", "Cena i ilość muszą być liczbami")
-            return
-
-        try:
-            df = pd.read_excel("db/products.xlsx", engine="openpyxl")
-            new_id = df['ID'].max() + 1
-        except:
-            df = pd.DataFrame(columns=['ID', 'Name', 'Price', 'Quantity', 'Category'])
-            new_id = 1
-
-        # Dodanie produktu
-        new_product = {
-            'ID': new_id,
-            'Name': name,
-            'Price': price,
-            'Quantity': quantity,
-            'Category': category
-        }
-
-        df = pd.concat([df, pd.DataFrame([new_product])], ignore_index=True)
-        df.to_excel("db/products.xlsx", index=False)
-
-        messagebox.showinfo("Sukces", "Produkt został dodany pomyślnie")
-        window.destroy()
-    except Exception as e:
-        messagebox.showerror("Błąd", f"Wystąpił błąd: {str(e)}")

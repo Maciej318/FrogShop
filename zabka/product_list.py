@@ -6,7 +6,7 @@ from tkinter import messagebox
 
 def show_products_window():
     try:
-        data = pd.read_excel("db/products.xlsx", engine="openpyxl")
+        data = pd.read_excel("Frog/products.xlsx", engine="openpyxl")
 
         # Tworzenie nowego okna
         products_window = tk.Toplevel()

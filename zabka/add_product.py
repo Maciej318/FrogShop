@@ -51,7 +51,7 @@ def add_product(name, price, quantity, category, window):
             return
 
         try:
-            data = pd.read_excel("products.xlsx", engine="openpyxl")
+            data = pd.read_excel("db/products.xlsx", engine="openpyxl")
             new_id = data['ID'].max() + 1
         except:
             data = pd.DataFrame(columns=['ID', 'Name', 'Price', 'Quantity', 'Category'])
@@ -67,7 +67,7 @@ def add_product(name, price, quantity, category, window):
         }
 
         data = pd.concat([data, pd.DataFrame([new_product])], ignore_index=True)
-        data.to_excel("products.xlsx", index=False)
+        data.to_excel("db/products.xlsx", index=False)
 
         messagebox.showinfo("Sukces", "Produkt został dodany pomyślnie")
         window.destroy()

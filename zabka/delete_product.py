@@ -27,7 +27,7 @@ def delete_product(product_id, delete_window):
             messagebox.showerror("Błąd", "Musisz podać ID produktu")
             return
 
-        data = pd.read_excel("products.xlsx")
+        data = pd.read_excel("db/products.xlsx")
 
         product_id = int(product_id)
 
@@ -36,7 +36,7 @@ def delete_product(product_id, delete_window):
             return
 
         data = data[data['ID'] != product_id]
-        data.to_excel("products.xlsx", index=False)
+        data.to_excel("db/products.xlsx", index=False)
 
         messagebox.showinfo("Sukces", "Produkt został usunięty")
 

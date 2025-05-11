@@ -68,11 +68,47 @@ def show_login_screen(root):
 def show_client_panel(root, login):
     clear_screen(root)
 
-    tk.Label(root, text="Panel Klienta",
-             fg="white", font=("Helvetica", 30, "bold"), bg="#569b31").pack(pady=20)
+    # tk.Label(root, text="Panel Klienta",
+    #          fg="white", font=("Helvetica", 30, "bold"), bg="#569b31").pack(pady=20)
+    #
+    # tk.Label(root, text=f"Witaj, {login}!",
+    #          fg="white", font=("Helvetica", 16), bg="#569b31").pack()
 
-    tk.Label(root, text=f"Witaj, {login}!",
-             fg="white", font=("Helvetica", 16), bg="#569b31").pack()
+
+    frame2 = tk.Frame(root, bg="#4e8c2a", width=300, height=350, highlightbackground="white", highlightthickness=2)
+    frame2.place(x=30, y=120)
+    tk.Label(root, text="Koszyk",
+                      fg="white", font=("Helvetica", 25, "bold"), bg="#569b31").place(x=120, y=130)
+
+    frame3 = tk.Frame(root, bg="#4e8c2a", width=800, height=280, highlightbackground="white", highlightthickness=2)
+    frame3.place(x=350, y=120)
+    tk.Label(root, text="Dostępne Produkty",
+             fg="white", font=("Helvetica", 25, "bold"), bg="#569b31").place(x=585, y=130)
+
+    frame4 = tk.Frame(root, bg="#4e8c2a", width=800, height=60, highlightbackground="white", highlightthickness=2)
+    frame4.place(x=350, y=50)
+
+    frame5 = tk.Frame(root, bg="#4e8c2a", width=800, height=60, highlightbackground="white", highlightthickness=2)
+    frame5.place(x=350, y=410)
+    tk.Label(root, text="Filtr Produktów",
+             fg="white", font=("Helvetica", 25, "bold"), bg="#569b31").place(x=585, y=420)
+
+    # Przycisk kup
+    tk.Button(
+        root,
+        text="Kup",
+        font=("Helvetica", 10, "bold"),
+        bg="#4CAF50", fg="white", width=20,
+    ).place(x=105, y=420)
+
+    # Przycisk historia
+    tk.Button(
+        root,
+        text="Historia",
+        font=("Helvetica", 10, "bold"),
+        bg="#4CAF50", fg="white", width=20,
+    ).place(x=775, y=65)
+
     # Przycisk wyloguj
     tk.Button(
         root,
@@ -80,7 +116,7 @@ def show_client_panel(root, login):
         font=("Helvetica", 10, "bold"),
         bg="#4CAF50", fg="white", width=20,
         command=lambda: show_login_screen(root)
-    ).place(x=10, y=460)
+    ).place(x=950, y=65)
 
     # LOGO
     try:
@@ -89,7 +125,7 @@ def show_client_panel(root, login):
         logo = ImageTk.PhotoImage(imageResized)
 
         label = tk.Label(root, image=logo, bd=0, highlightthickness=0)
-        label.place(x=60, y=60, anchor="center")
+        label.place(x=180, y=60, anchor="center")
         label.image = logo
     except Exception as e:
         print(f"Błąd ładowania obrazu: {e}")

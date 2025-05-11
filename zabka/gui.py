@@ -6,7 +6,6 @@ from product_list import show_products_window
 from customer_list import show_customer_list
 from add_customer import show_add_customer_window
 
-
 def start_gui():
     root = tk.Tk()
     root.title("Żabka - Mały Wielki Sklep")
@@ -21,7 +20,7 @@ def clear_screen(root):
     for widget in root.winfo_children():
         widget.destroy()
 
-#Ekran logowania -----------------------------------
+#Ekran logowania
 def show_login_screen(root):
     clear_screen(root)
 
@@ -66,7 +65,7 @@ def show_login_screen(root):
     except Exception as e:
         print(f"Błąd ładowania obrazu: {e}")
 
-#Panel klienta ---------------------------------------
+#Panel klienta
 def show_client_panel(root, login):
     clear_screen(root)
 
@@ -132,7 +131,7 @@ def show_client_panel(root, login):
     except Exception as e:
         print(f"Błąd ładowania obrazu: {e}")
 
-#Panel admina --------------------------------------
+#Panel admina
 def show_admin_panel(root, login):
     clear_screen(root)
 
@@ -178,7 +177,7 @@ def show_admin_panel(root, login):
         text="Użytkownicy",
         font=("Helvetica", 12, "bold"),
         bg="#4CAF50", fg="white", width=20,
-        command=lambda: show_users_panel(root,login)
+        command=lambda: show_users_panel(root, login)
     ).pack(side=tk.LEFT, padx=10)
 
     # Przycisk wyloguj
@@ -212,7 +211,6 @@ def show_admin_panel(root, login):
         label.image = logo
     except Exception as e:
         print(f"Błąd ładowania obrazu: {e}")
-
 
 # Panel uzytkownikow -----------------------------------------
 def show_users_panel(root, login):
@@ -287,4 +285,6 @@ def show_users_panel(root, login):
         label.image = logo
     except Exception as e:
         print(f"Błąd ładowania obrazu: {e}")
+
+
 

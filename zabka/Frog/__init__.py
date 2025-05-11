@@ -3,6 +3,7 @@ import pandas as pd
 from tkinter import messagebox
 from datetime import datetime
 
+
 BASE_DIR = os.path.dirname(__file__)
 
 """ Pobiera dane produktow z pliku Excel """
@@ -95,7 +96,15 @@ def add_product(name, price, quantity, category, window):
     except Exception as e:
         messagebox.showerror("Błąd", f"Wystąpił błąd: {str(e)}")
 
-
+"""
+    Dodawanie nowego użytkownika do pliku csv 
+    
+    Args:
+        name(str) : Nazwa użytkownika
+        email(str) : Email użytkownika
+        number(int) : Numer telefonu użytkownika
+        window : zamkniecie okna po dodaniu użytkownika
+"""
 def add_customer(name,email,number, window):
     created = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
     updated = None

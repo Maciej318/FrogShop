@@ -5,8 +5,6 @@ from tkinter import messagebox
 from zabka.Frog import get_customers
 
 
-
-
 def show_customer_list():
     try:
         customers = get_customers()

@@ -1,8 +1,6 @@
 import tkinter as tk
 from zabka.Frog import add_customer
 
-
-
 def show_add_customer_window(root):
     add_window = tk.Toplevel(root)
     add_window.title("Dodaj użytkownika")

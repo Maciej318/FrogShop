@@ -1,5 +1,6 @@
 from setuptools import setup
 
+# Pakiet Frog
 setup(
     name="Frog",
     version="0.0.1",

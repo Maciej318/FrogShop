@@ -1,12 +1,11 @@
 import tkinter as tk
 from tkinter import ttk
-import pandas as pd
 from tkinter import messagebox
-
+from zabka.Frog import get_products
 
 def show_products_window():
     try:
-        data = pd.read_excel("Frog/products.xlsx", engine="openpyxl")
+        data = get_products()
 
         # Tworzenie nowego okna
         products_window = tk.Toplevel()

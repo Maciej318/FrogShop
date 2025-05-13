@@ -5,6 +5,8 @@ from delete_product import show_delete_product_window
 from product_list import show_products_window
 from customer_list import show_customer_list
 from add_customer import show_add_customer_window
+from login import client_login, admin_login, spr
+from session import *
 
 def start_gui():
     root = tk.Tk()
@@ -20,7 +22,7 @@ def clear_screen(root):
     for widget in root.winfo_children():
         widget.destroy()
 
-#Ekran logowania
+#Ekran logowania ----------------------------
 def show_login_screen(root):
     clear_screen(root)
 
@@ -37,20 +39,28 @@ def show_login_screen(root):
     entry_name = tk.Entry(frame1)
     entry_name.grid(row=0, column=1, padx=5, pady=5)
 
+    def handle_client_login():
+        if client_login(entry_name):
+            show_client_panel(root, get_current_user())
+
     tk.Button(
         frame1,
         text="Zaloguj Jako Klient",
         font=("Helvetica", 10, "bold"),
         bg="#4CAF50", fg="white", width=20,
-        command=lambda: show_client_panel(root, entry_name.get())
+        command=handle_client_login
     ).grid(row=2, columnspan=2, pady=10)
+
+    def handle_admin_login():
+        if admin_login(entry_name):
+            show_admin_panel(root)
 
     tk.Button(
         frame1,
         text="Zaloguj Jako ADMIN",
         font=("Helvetica", 10, "bold"),
         bg="#4CAF50", fg="white", width=20,
-        command=lambda: show_admin_panel(root, entry_name.get())
+        command=handle_admin_login
     ).grid(row=3, columnspan=2, pady=10)
 
     #LOGO
@@ -65,7 +75,7 @@ def show_login_screen(root):
     except Exception as e:
         print(f"Błąd ładowania obrazu: {e}")
 
-#Panel klienta
+#Panel klienta --------------------------------
 def show_client_panel(root, login):
     clear_screen(root)
 
@@ -108,7 +118,10 @@ def show_client_panel(root, login):
         text="Historia",
         font=("Helvetica", 10, "bold"),
         bg="#4CAF50", fg="white", width=20,
+        command=lambda : spr()
     ).place(x=775, y=65)
+
+
 
     # Przycisk wyloguj
     tk.Button(
@@ -116,7 +129,7 @@ def show_client_panel(root, login):
         text="Wyloguj",
         font=("Helvetica", 10, "bold"),
         bg="#4CAF50", fg="white", width=20,
-        command=lambda: show_login_screen(root)
+        command=lambda: [logout(), show_login_screen(root)]
     ).place(x=950, y=65)
 
     # LOGO
@@ -131,14 +144,14 @@ def show_client_panel(root, login):
     except Exception as e:
         print(f"Błąd ładowania obrazu: {e}")
 
-#Panel admina
-def show_admin_panel(root, login):
+#Panel admina ------------------------------------
+def show_admin_panel(root):
     clear_screen(root)
 
     tk.Label(root, text="Panel Administratora",
              fg="white", font=("Helvetica", 30, "bold"), bg="#569b31").pack(pady=20)
 
-    tk.Label(root, text=f"Witaj, Administratorze {login}!",
+    tk.Label(root, text=f"Witaj, Administratorze !",
              fg="white", font=("Helvetica", 16), bg="#569b31").pack()
 
     # Ramka z przyciskami
@@ -177,7 +190,7 @@ def show_admin_panel(root, login):
         text="Użytkownicy",
         font=("Helvetica", 12, "bold"),
         bg="#4CAF50", fg="white", width=20,
-        command=lambda: show_users_panel(root, login)
+        command=lambda: show_users_panel(root)
     ).pack(side=tk.LEFT, padx=10)
 
     # Przycisk wyloguj
@@ -186,7 +199,7 @@ def show_admin_panel(root, login):
         text="Wyloguj",
         font=("Helvetica", 10, "bold"),
         bg="#4CAF50", fg="white", width=20,
-        command=lambda: show_login_screen(root)
+        command=lambda: [logout(),show_login_screen(root)]
     ).place(x=10, y=460)
 
     try:
@@ -213,7 +226,7 @@ def show_admin_panel(root, login):
         print(f"Błąd ładowania obrazu: {e}")
 
 # Panel uzytkownikow -----------------------------------------
-def show_users_panel(root, login):
+def show_users_panel(root):
     clear_screen(root)
 
     tk.Label(root, text="Panel Użytkowników",
@@ -241,6 +254,7 @@ def show_users_panel(root, login):
         command=lambda: show_add_customer_window(root)
     ).pack(side=tk.LEFT, padx=10)
 
+    # Usuniecie użytkownika
     tk.Button(
         button_frame,
         text="Usuń użytkownika",
@@ -248,6 +262,7 @@ def show_users_panel(root, login):
         bg="#4CAF50", fg="white", width=20,
     ).pack(side=tk.LEFT, padx=10)
 
+    # Edycja użytkownika
     tk.Button(
         button_frame,
         text="Edytuj użytkownika",
@@ -255,12 +270,13 @@ def show_users_panel(root, login):
         bg="#4CAF50", fg="white", width=20,
     ).pack(side=tk.LEFT, padx=10)
 
+    # Cofniecie do poprzedniego ekranu
     tk.Button(
         root,
         text = "Cofnij",
         font=("Helvetica", 12, "bold"),
         bg="#4CAF50", fg="white", width=20,
-        command=lambda: show_admin_panel(root, login)
+        command=lambda: show_admin_panel(root)
     ).place(x=10, y=460)
 
     try:

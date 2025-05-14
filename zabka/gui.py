@@ -301,6 +301,79 @@ def show_users_panel(root):
         label.image = logo
     except Exception as e:
         print(f"Błąd ładowania obrazu: {e}")
+#nowy panel klienta
+#def show_client_panel(root, login):
+#     clear_screen(root)
+#
+#     # Koszyk
+#     koszyk_frame = tk.Frame(root, bg="#4e8c2a", width=300, height=350, highlightbackground="white", highlightthickness=2)
+#     koszyk_frame.place(x=30, y=120)
+#
+#     tk.Label(koszyk_frame, text="Koszyk", font=("Helvetica", 16, "bold"), bg="#4e8c2a", fg="white").place(x=110, y=10)
+#
+#     koszyk_listbox = tk.Listbox(koszyk_frame, width=40, height=15)
+#     koszyk_listbox.place(x=8, y=50, width=280, height=260)
+#
+#     # Tabela produktów
+#     tree = show_products(root)
+#
+#     # Nagłówek
+#     frame4 = tk.Frame(root, bg="#4e8c2a", width=800, height=60, highlightbackground="white", highlightthickness=2)
+#     frame4.place(x=350, y=50)
+#     tk.Label(root, text=f"Witaj, {login}!", fg="white", font=("Helvetica", 16), bg="#569b31").place(x=360, y=65)
+#
+#     # Filtry
+#     frame5 = tk.Frame(root, bg="#4e8c2a", width=800, height=60, highlightbackground="white", highlightthickness=2)
+#     frame5.place(x=350, y=410)
+#     tk.Label(root, text="Filtr Produktów", fg="white", font=("Helvetica", 25, "bold"), bg="#569b31").place(x=585, y=420)
+#
+#     # Przycisk Dodaj do koszyka
+#     kup_button = tk.Button(
+#         koszyk_frame,
+#         text="Dodaj do koszyka",
+#         font=("Helvetica", 10, "bold"),
+#         bg="#4CAF50", fg="white",
+#         command=lambda: dodaj_do_koszyka(tree, koszyk_listbox))
+#     kup_button.place(x=8, y=317)
+#
+#     # Przycisk Kup
+#     kup_button = tk.Button(
+#         koszyk_frame,
+#         text="Kup",
+#         font=("Helvetica", 10, "bold"),
+#         bg="#4CAF50", fg="white",)
+#     kup_button.place(x=140, y=317)
+#
+#     # Przycisk historia
+#     tk.Button(
+#         root,
+#         text="Historia",
+#         font=("Helvetica", 10, "bold"),
+#         bg="#4CAF50", fg="white", width=20,
+#     ).place(x=775, y=65)
+#
+#     # Przycisk wyloguj
+#     tk.Button(
+#         root,
+#         text="Wyloguj",
+#         font=("Helvetica", 10, "bold"),
+#         bg="#4CAF50", fg="white", width=20,
+#         command=lambda: show_login_screen(root)
+#     ).place(x=950, y=65)
+#
+#     # LOGO
+#     try:
+#         image = Image.open("Assets/logo.png")
+#         imageResized = image.resize((100, 100))
+#         logo = ImageTk.PhotoImage(imageResized)
+#
+#         label = tk.Label(root, image=logo, bd=0, highlightthickness=0)
+#         label.place(x=180, y=60, anchor="center")
+#         label.image = logo
+#     except Exception as e:
+#         print(f"Błąd ładowania obrazu: {e}")
 
+# from show_products import show_products
+# from cart import dodaj_do_koszyka
 
 

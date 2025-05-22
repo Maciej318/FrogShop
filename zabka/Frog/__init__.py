@@ -2,9 +2,11 @@ import os
 import pandas as pd
 from tkinter import messagebox
 from datetime import datetime
+import random
 
 
 BASE_DIR = os.path.dirname(__file__)
+database_dir = os.path.join(BASE_DIR, 'DATABASE')
 
 """ Pobiera dane produktow z pliku Excel """
 def get_products():
@@ -20,7 +22,12 @@ def get_customers():
     
     Args:
         product_id(str/int) : ID produktu do usuniecia
-        delete_window : Zamkniecie okna po usunieciu produktu
+        delete_window : Okno usuwania produktu
+        
+    Returns: 
+        Otwiera okno do usuwania produktu
+        zwraca błąd w przypadku podania złego id produktu
+        jeżeli id poprwane usuwa produkt o podanym ID z pliku Excel 
 """
 def delete_product(product_id, delete_window):
     try:
@@ -56,7 +63,12 @@ def delete_product(product_id, delete_window):
         price(float) : Cena produktu
         quantity(int) : Ilosc produktu
         category(str) : Kategoria produktu 
-        window : Zamkniecie okna po dodaniu produktu
+        window : Okno dodawania produktu
+        
+    Returns: 
+        Otwiera okno do dodania produktu
+        wyświetla błąd jeżeli nie wypełniono każdego pola 
+        dodaje produkt o podanych zmiennych do pliku Excel 
 """
 
 def add_product(name, price, quantity, category, window):
@@ -75,6 +87,7 @@ def add_product(name, price, quantity, category, window):
         try:
             data = get_products()
             new_id = data['ID'].max() + 1
+
         except:
             data = pd.DataFrame(columns=['ID', 'Name', 'Price', 'Quantity', 'Category'])
             new_id = 1
@@ -103,7 +116,12 @@ def add_product(name, price, quantity, category, window):
         name(str) : Nazwa użytkownika
         email(str) : Email użytkownika
         number(int) : Numer telefonu użytkownika
-        window : zamkniecie okna po dodaniu użytkownika
+        window : Okno dodania użytkownika
+        
+    Returns: 
+        Otwiera okno do dodania użytkownika
+        zwraca błąd jeżeli nie podano wszystkich pól lub jeżeli nr telefonu nie jest liczbą
+        dodaje podanego użytkownika do pliku csv 
 """
 def add_customer(name,email,number, window):
     created = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
@@ -121,7 +139,10 @@ def add_customer(name,email,number, window):
 
         try:
             customers = get_customers()
-            new_id = customers['ID'].max() + 1
+            while True:
+                new_id = random.randint(1000, 9999)
+                if new_id not in customers['ID'].values:
+                    break
         except:
             customers = pd.DataFrame(columns = ['ID', 'Name','E-MAIL','PHONE', 'CREATED', 'UPDATED'])
             new_id = 1
@@ -136,13 +157,61 @@ def add_customer(name,email,number, window):
             'UPDATED': updated,
         }
 
+
         customers = pd.concat([customers, pd.DataFrame([new_customer])], ignore_index = True)
         customers.to_csv("Frog/customer.csv", index = False)
+
+        filename = f"{new_id}.txt"
+        file_path = os.path.join(database_dir, filename)
+        with open(file_path, "w"):
+            pass
 
         messagebox.showinfo("Sukces", "Użytkownik został dodany pomyślnie")
         window.destroy()
 
     except Exception as e:
         messagebox.showerror("Błąd", f"Wystąpił błąd: {str(e)}")
+
+"""
+    Usuwanie użytkownika z pliku csv 
+    
+    Args:
+        customer_name(str) : Nazwa użytkownika
+        delete_window : Okno do usuwania użytkownika
+        
+    :Returns: 
+        Otwiera okno do usuwania użytkownika
+        jeżeli nie istnieje użytkownik o podanej nazwie lub puste pole wypisze błąd
+        usuwa użytkownika z pliku csv
+        
+"""
+def delete_customer(customer_name, delete_window):
+    try:
+        if not customer_name:
+            messagebox.showerror("Błąd", "Musisz podać nazwe użytkownika")
+            return
+
+        customers = get_customers()
+        customer_name = str(customer_name)
+        customer_id = customers[customers["NAME"] == customer_name]["ID"].values[0]
+
+        if customer_name not in customers["NAME"].values:
+            messagebox.showerror("Błąd", "Nie ma użytkownika o takiej nazwie")
+            return
+
+        customers = customers[customers["NAME"] != customer_name]
+        customers.to_csv("Frog/customer.csv", index=False)
+
+        filename = f"{customer_id}.txt"
+        file_path = os.path.join(database_dir, filename)
+
+        if os.path.exists(file_path):
+            os.remove(file_path)
+
+        messagebox.showinfo("Sukces",f"Użytkownik {customer_name} został usunięty ")
+        delete_window.destroy()
+
+    except Exception as e:
+        messagebox.showerror("Błąd",f"{e}")
 
 

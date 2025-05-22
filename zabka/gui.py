@@ -5,8 +5,9 @@ from delete_product import show_delete_product_window
 from product_list import show_products_window
 from customer_list import show_customer_list
 from add_customer import show_add_customer_window
-from login import client_login, admin_login, spr
+from login import client_login, admin_login
 from session import *
+from delete_customer import show_delete_customer_window
 
 def start_gui():
     root = tk.Tk()
@@ -118,7 +119,7 @@ def show_client_panel(root, login):
         text="Historia",
         font=("Helvetica", 10, "bold"),
         bg="#4CAF50", fg="white", width=20,
-        command=lambda : spr()
+        # command=lambda : spr()
     ).place(x=775, y=65)
 
 
@@ -260,6 +261,7 @@ def show_users_panel(root):
         text="Usuń użytkownika",
         font=("Helvetica", 12, "bold"),
         bg="#4CAF50", fg="white", width=20,
+        command = lambda:show_delete_customer_window(root)
     ).pack(side=tk.LEFT, padx=10)
 
     # Edycja użytkownika

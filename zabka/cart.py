@@ -1,7 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
-from zabka.Frog import get_products
 
 def dodaj_do_koszyka(tree, koszyk_listbox):
     selected_item = tree.focus()

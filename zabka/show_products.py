@@ -18,7 +18,7 @@ def show_products(root):
 
         tree.configure(yscrollcommand=scrollbar_y.set)
 
-        selected_columns = ["Name", "Price"]
+        selected_columns = ["Name", "Price", "Category"]
         tree["columns"] = selected_columns
         tree["show"] = "headings"
 
@@ -35,3 +35,27 @@ def show_products(root):
     except Exception as e:
         messagebox.showerror("Błąd", f"Nie można wczytać produktów: {str(e)}")
         return None
+
+
+def filter_by_category(tree, category):
+    try:
+        data = get_products()
+
+
+        for item in tree.get_children():
+            tree.delete(item)
+
+
+        if category:
+            filtered_data = data[data['Category'].str.lower() == category.lower()]
+        else:
+            filtered_data = data
+
+
+        selected_columns = ["Name", "Price", "Category"]
+        for _, row in filtered_data.iterrows():
+            values = [row[col] for col in selected_columns]
+            tree.insert("", "end", values=values)
+
+    except Exception as e:
+        messagebox.showerror("Błąd", f"Nie można zastosować filtra: {str(e)}")

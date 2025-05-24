@@ -11,6 +11,8 @@ from delete_customer import show_delete_customer_window
 from show_products import show_products
 from cart import dodaj_do_koszyka
 from X import usun_produkt
+from show_products import filter_by_category
+
 
 def start_gui():
     root = tk.Tk()
@@ -108,7 +110,32 @@ def show_client_panel(root, login):
     # Filtry
     frame5 = tk.Frame(root, bg="#4e8c2a", width=800, height=60, highlightbackground="white", highlightthickness=2)
     frame5.place(x=350, y=410)
-    tk.Label(root, text="Filtr Produktów", fg="white", font=("Helvetica", 25, "bold"), bg="#569b31").place(x=585, y=420)
+
+    # Pole do wprowadzania kategorii
+    tk.Label(frame5, text="Kategoria:", fg="white", font=("Helvetica", 16), bg="#569b31").place(x=20, y=15)
+    category_entry = tk.Entry(frame5, width=15)
+    category_entry.place(x=140, y=20)
+
+    # Przycisk Filtruj
+    filter_button = tk.Button(
+        frame5,
+        text="Filtruj",
+        font=("Helvetica", 10, "bold"),
+        bg="#4CAF50", fg="white",
+        command=lambda: filter_by_category(tree, category_entry.get())
+    )
+    filter_button.place(x=260, y=15)
+
+    # Przycisk Wyczyść filtr
+    clear_filter_button = tk.Button(
+        frame5,
+        text="Wyczyść filtr",
+        font=("Helvetica", 10, "bold"),
+        bg="#4CAF50", fg="white",
+        command=lambda: filter_by_category(tree, "")
+    )
+    clear_filter_button.place(x=330, y=15)
+
 
     # Przycisk Dodaj do koszyka
     add_button = tk.Button(

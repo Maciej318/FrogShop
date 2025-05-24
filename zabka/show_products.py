@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
 from zabka.Frog import get_products
+from functools import wraps
 
 def show_products(root):
     try:
@@ -36,9 +37,17 @@ def show_products(root):
         messagebox.showerror("Błąd", f"Nie można wczytać produktów: {str(e)}")
         return None
 
-
+def handle_error(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        try:
+            return func(*args, **kwargs)
+        except Exception as e:
+            messagebox.showerror("Błąd", f"Nie można zastosować filtra: {str(e)}")
+    return wrapper
+    
+@handle_error
 def filter_by_category(tree, category):
-    try:
         data = get_products()
 
 
@@ -56,6 +65,3 @@ def filter_by_category(tree, category):
         for _, row in filtered_data.iterrows():
             values = [row[col] for col in selected_columns]
             tree.insert("", "end", values=values)
-
-    except Exception as e:
-        messagebox.showerror("Błąd", f"Nie można zastosować filtra: {str(e)}")

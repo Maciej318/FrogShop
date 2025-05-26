@@ -124,7 +124,7 @@ def add_product(name, price, quantity, category, window):
         dodaje podanego użytkownika do pliku csv 
 """
 def add_customer(name,email,number, window):
-    created = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+    created = datetime.now().strftime("%d/%m/%Y %H:%M")
     updated = None
     try:
         if not name or not email or not number:
@@ -213,5 +213,66 @@ def delete_customer(customer_name, delete_window):
 
     except Exception as e:
         messagebox.showerror("Błąd",f"{e}")
+
+""" 
+    Zmiana danych użytkownika
+    
+    Args:
+        name(str) : Nazwa użytkownika
+        id(int) : ID użytkownika
+        email(str) : Email użytkownika
+        number(int) : Numer użytkownika
+        window : Okno do zmiany danych użytkownika
+    
+    Returns: Użytkownik podaje Id użytkownika dla którego chce zmienić dane,
+    i wpisuje na co chce zmienić podane dane.
+    
+"""
+def update_customer(id ,name, email, number, window):
+
+    try:
+        customers = get_customers()
+
+        try:
+            id = int(id)
+        except ValueError:
+            messagebox.showerror("Error", "ID musi być liczbą")
+            return
+
+        if id not in customers["ID"].values:
+            messagebox.showerror("Error", "Użytkownik o podanym id nie istnieje")
+            return
+
+        if not name and not email and not number:
+            messagebox.showerror("Błąd", "Przynajmniej jedno pole musi być wypełnione")
+            return False
+
+        updated = datetime.now().strftime("%d/%m/%Y %H:%M")
+        idx = customers[customers["ID"] == id].index[0]
+
+        if name: customers.at[idx,"NAME"] = name
+        if email: customers.at[idx,"E-MAIL"] = email
+
+        if number:
+            try:
+                customers.at[idx,"PHONE"] = int(number)
+            except ValueError:
+                messagebox.showerror("Błąd", "Numer telefonu musi być liczbą")
+                return
+
+        customers.at[idx,"UPDATED"] = updated
+
+        customers.to_csv("Frog/customer.csv",index = False)
+        messagebox.showinfo("Sukces","Dane użytkownika zostały zaktualizowane")
+
+        window.destroy()
+
+    except Exception as e:
+        messagebox.showerror("Error", f"Wystąpił błąd podczas aktualizacji {str(e)}")
+
+
+
+
+
 
 

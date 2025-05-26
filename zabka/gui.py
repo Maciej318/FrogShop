@@ -5,7 +5,7 @@ from delete_product import show_delete_product_window
 from product_list import show_products_window
 from customer_list import show_customer_list
 from add_customer import show_add_customer_window
-from login import client_login, admin_login
+from login import client_login, admin_login, spr
 from session import *
 from delete_customer import show_delete_customer_window
 from show_products import show_products
@@ -152,7 +152,8 @@ def show_client_panel(root, login):
         koszyk_frame,
         text="Kup",
         font=("Helvetica", 10, "bold"),
-        bg="#4CAF50", fg="white", )
+        bg="#4CAF50", fg="white",
+        command=lambda:dodaj_do_koszyka(tree, koszyk_listbox,save_in_file=True))
     kup_button.place(x=140, y=317)
 
     # Przycisk X
@@ -170,6 +171,7 @@ def show_client_panel(root, login):
         text="Historia",
         font=("Helvetica", 10, "bold"),
         bg="#4CAF50", fg="white", width=20,
+        command = lambda : spr()
     ).place(x=775, y=65)
 
     # Przycisk wyloguj

@@ -35,9 +35,9 @@ def admin_login(name_entry):
         return False
 
 # Sprawdzenie aktualnego uzytkownika
-# def spr():
-#     if is_logged_in():
-#         messagebox.showinfo("Status:", f"zalogowany jako: {get_current_user()}")
-#     else:
-#         messagebox.showinfo("Status:", "Nikt nie jest zalogowany")
-#
+def spr():
+    if is_logged_in():
+        messagebox.showinfo("Status:", f"zalogowany jako: {get_current_user()}")
+    else:
+        messagebox.showinfo("Status:", "Nikt nie jest zalogowany")
+

@@ -7,7 +7,7 @@ def show_add_customer_window(root):
     add_window.geometry("400x300")
     add_window.configure(bg = "#569b31")
 
-    #Etykieta input
+
     tk.Label(add_window, text = "Nazwa użytkownika", bg = "#569b31", fg = "white").pack(pady = 5)
     entry_name = tk.Entry(add_window)
     entry_name.pack()

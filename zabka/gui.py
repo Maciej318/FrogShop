@@ -12,6 +12,7 @@ from show_products import show_products
 from cart import dodaj_do_koszyka
 from X import usun_produkt
 from show_products import filter_by_category
+from change_customer import update_change_customer_window
 
 
 def start_gui():
@@ -317,6 +318,7 @@ def show_users_panel(root):
         text="Edytuj użytkownika",
         font=("Helvetica", 12, "bold"),
         bg="#4CAF50", fg="white", width=20,
+        command = lambda:update_change_customer_window(root)
     ).pack(side=tk.LEFT, padx=10)
 
     # Cofniecie do poprzedniego ekranu

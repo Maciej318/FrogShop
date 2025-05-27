@@ -13,6 +13,7 @@ from cart import dodaj_do_koszyka
 from X import usun_produkt
 from show_products import filter_by_category
 from change_customer import update_change_customer_window
+from history import show_history
 
 
 def start_gui():

@@ -11,5 +11,5 @@ setup(
     author="Maciej318 , stanislawchociej , lybsoon",
     license="MIT",
     zip_safe= True,
-    install_requires=["pandas", "openpyxl"],
+    install_requires=["pandas", "openpyxl","pillow"],
 )

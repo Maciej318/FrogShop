@@ -171,7 +171,7 @@ def show_client_panel(root, login):
         text="Historia",
         font=("Helvetica", 10, "bold"),
         bg="#4CAF50", fg="white", width=20,
-        command = lambda : spr()
+        command = lambda : show_history()
     ).place(x=775, y=65)
 
     # Przycisk wyloguj
